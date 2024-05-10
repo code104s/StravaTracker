@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exchange Token</title>
+    <script>
+        window.onload = function() {
+            var url = window.location.href;
+            var params = new URLSearchParams(url.split('?')[1]);
+            var code = params.get('code');
+
+            if (code) {
+                // Redirect to the new URL with the code
+                window.location.href = "https://www.strava.com/oauth/token?client_id=126234&client_secret=6afbaa4369b159140e1637e80abe713da7d6007f&code=" + code + "&grant_type=authorization_code";
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Exchange Token Page</h1>
+</body>
+</html>
