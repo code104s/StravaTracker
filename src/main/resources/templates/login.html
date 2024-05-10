@@ -2,14 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
+    <!-- Thêm Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<div th:if="${param.error}">
-    <p>Invalid username and password.</p>
+<div class="container d-flex h-100">
+    <div class="row align-self-center w-100">
+        <div class="col-6 mx-auto">
+            <div class="jumbotron d-flex flex-column justify-content-center align-items-center h-100">
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">Invalid username and password.</div>
+                </div>
+                <div th:if="${param.logout}">
+                    <div class="alert alert-success">You have been logged out.</div>
+                </div>
+                <div class="text-center">
+                    <a class="btn btn-primary" href="/oauth2/authorization/strava">Login with Strava</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div th:if="${param.logout}">
-    <p>You have been logged out.</p>
-</div>
-<a href="/oauth2/authorization/strava">Login with Strava</a>
+<!-- Thêm Bootstrap JS và jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

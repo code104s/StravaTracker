@@ -1,5 +1,8 @@
 package com.code104s.StravaSortScore.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -7,10 +10,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -26,6 +33,12 @@ public class TokenController {
     @Value("${spring.security.oauth2.client.registration.strava.redirect-uri}")
     private String redirectUri;
 
+    @GetMapping("/")
+    public String home() {
+        // Redirect the user to the Strava authorization URL
+        return "redirect:/login";
+    }
+
     @GetMapping("/authorize")
     public String authorize() {
         // Redirect the user to the Strava authorization URL
@@ -35,7 +48,11 @@ public class TokenController {
     }
 
     @GetMapping("/exchange_token")
-    public String exchangeToken(@RequestParam("code") String code, HttpSession session) {
+    public String exchangeToken(@RequestParam("code") String code,
+                                                Model model,
+                                                HttpSession session) throws JsonProcessingException {
+
+        authorize();
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -50,21 +67,34 @@ public class TokenController {
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(params, headers);
 
-        ResponseEntity<Map> response = restTemplate.exchange(
+        ResponseEntity<String> response = restTemplate.exchange(
                 "https://www.strava.com/oauth/token",
                 HttpMethod.POST,
                 request,
-                Map.class
+                String.class
         );
 
-        Map<String, Object> responseBody = response.getBody();
+        // Convert the JSON response body to a Map
+        ObjectMapper mapper = new ObjectMapper();
+        System.out.println("Response body: " + response.getBody());
+        Map<String, Object> responseBody = mapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>(){});
+
+        // Trích xuất mã truy cập và phạm vi từ phản hồi
         String accessToken = (String) responseBody.get("access_token");
 
-        // Store the access token in the session
+
+        // Lưu trữ mã truy cập trong phiên
         session.setAttribute("access_token", accessToken);
 
-        // After processing the authorization code, redirect the user to the dashboard
+        System.out.println("Access token: " + accessToken);
+
+        // xac nhan nguoi dung da authention thanh cong
+        session.setAttribute("isAuthenticated", true);
+
+        // hien thi session da duoc luu co chua access token khong
+        System.out.println("Session: " + session.getAttribute("access_token"));
+
+        // Sau khi xử lý mã ủy quyền, chuyển hướng người dùng đến bảng điều khiển
         return "redirect:/dashboard";
     }
-
 }
