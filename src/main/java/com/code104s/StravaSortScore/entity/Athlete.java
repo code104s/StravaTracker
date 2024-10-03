@@ -3,6 +3,9 @@ package com.code104s.StravaSortScore.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+import java.util.Objects;
+
 @Entity
 @Table(name="athlete")
 public class Athlete {
@@ -15,8 +18,9 @@ public class Athlete {
     @Column(name = "username")
     private String username;
 
+
     @Column(name = "resource_state")
-    private int resourceState;
+    private int resource_state;
 
     @Column(name = "firstname")
     private String firstname;
@@ -43,27 +47,40 @@ public class Athlete {
     private boolean summit;
 
     @Column(name = "created_at")
-    private String createdAt;
+    private String created_at;
 
     @Column(name = "updated_at")
-    private String updatedAt;
+    private String updated_at;
 
     @Column(name = "badge_type_id")
-    private int badgeTypeId;
+    private int badge_type_id;
 
     @Column(name = "profile_medium")
-    private String profileMedium;
+    private String profile_medium;
 
     @Column(name = "profile")
     private String profile;
+
+
+
+    public void updateWith(Athlete athlete) {
+        setUsername(athlete.getUsername());
+        setResource_state(athlete.getResource_state());
+        setFirstname(athlete.getFirstname());
+        setLastname(athlete.getLastname());
+        setCity(athlete.getCity());
+        setState(athlete.getState());
+        setCountry(athlete.getCountry());
+    }
+
 
     // Constructor
     public Athlete() {
     }
 
-    public Athlete(String username, int resourceState, String firstname, String lastname, String city, String state, String country, String sex, boolean premium, boolean summit, String createdAt, String updatedAt, int badgeTypeId, String profileMedium, String profile) {
+    public Athlete(String username, int resource_state, String firstname, String lastname, String city, String state, String country, String sex, boolean premium, boolean summit, String created_at, String updated_at, int badge_type_id, String profile_medium, String profile) {
         this.username = username;
-        this.resourceState = resourceState;
+        this.resource_state = resource_state;
         this.firstname = firstname;
         this.lastname = lastname;
         this.city = city;
@@ -72,10 +89,10 @@ public class Athlete {
         this.sex = sex;
         this.premium = premium;
         this.summit = summit;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.badgeTypeId = badgeTypeId;
-        this.profileMedium = profileMedium;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.badge_type_id = badge_type_id;
+        this.profile_medium = profile_medium;
         this.profile = profile;
     }
 
@@ -95,12 +112,12 @@ public class Athlete {
         this.username = username;
     }
 
-    public int getResourceState() {
-        return resourceState;
+    public int getResource_state() {
+        return resource_state;
     }
 
-    public void setResourceState(int resourceState) {
-        this.resourceState = resourceState;
+    public void setResource_state(int resource_state) {
+        this.resource_state = resource_state;
     }
 
     public String getFirstname() {
@@ -167,36 +184,36 @@ public class Athlete {
         this.summit = summit;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
+    public String getUpdated_at() {
+        return updated_at;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 
-    public int getBadgeTypeId() {
-        return badgeTypeId;
+    public int getBadge_type_id() {
+        return badge_type_id;
     }
 
-    public void setBadgeTypeId(int badgeTypeId) {
-        this.badgeTypeId = badgeTypeId;
+    public void setBadge_type_id(int badge_type_id) {
+        this.badge_type_id = badge_type_id;
     }
 
-    public String getProfileMedium() {
-        return profileMedium;
+    public String getProfile_medium() {
+        return profile_medium;
     }
 
-    public void setProfileMedium(String profileMedium) {
-        this.profileMedium = profileMedium;
+    public void setProfile_medium(String profile_medium) {
+        this.profile_medium = profile_medium;
     }
 
     public String getProfile() {
@@ -212,7 +229,7 @@ public class Athlete {
         return "Athlete{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", resourceState=" + resourceState +
+                ", resource_state=" + resource_state +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", city='" + city + '\'' +
@@ -221,10 +238,10 @@ public class Athlete {
                 ", sex='" + sex + '\'' +
                 ", premium=" + premium +
                 ", summit=" + summit +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", badgeTypeId=" + badgeTypeId +
-                ", profileMedium='" + profileMedium + '\'' +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                ", badge_type_id=" + badge_type_id +
+                ", profile_medium='" + profile_medium + '\'' +
                 ", profile='" + profile + '\'' +
                 '}';
     }

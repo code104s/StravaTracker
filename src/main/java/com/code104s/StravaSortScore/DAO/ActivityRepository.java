@@ -4,4 +4,7 @@ import com.code104s.StravaSortScore.entity.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
+
+    boolean existsByApiId(long apiId);
+
 }

@@ -29,6 +29,12 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
+                        .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint
+                                .baseUri("/oauth2/authorize")
+                        )
+                        .redirectionEndpoint(redirectionEndpoint -> redirectionEndpoint
+                                .baseUri("/login/oauth2/code/*")
+                        )
                         .loginPage("/login")
                         .defaultSuccessUrl("/dashboard", true)
                         .userInfoEndpoint(userInfo -> userInfo
@@ -90,7 +96,6 @@ public class SecurityConfig {
                     mappedAuthorities.addAll(mapOAuth2UserAuthorities(oauth2UserAuthority));
                 }
             });
-
             return mappedAuthorities;
         };
     }

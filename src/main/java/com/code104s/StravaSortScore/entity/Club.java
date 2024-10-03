@@ -3,6 +3,8 @@ package com.code104s.StravaSortScore.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Entity
 @Table(name="club")
@@ -13,23 +15,34 @@ public class Club {
     @Column(name = "id")
     private long id;
 
+    @Column(name = "api_id")
+    private long apiId;
+
     @Column(name = "resource_state")
-    private int resourceState;
+    private int resource_state;
 
     @Column(name = "name")
     private String name;
 
+    @Column(name="description")
+    private String description;
+
     @Column(name = "profile_medium")
-    private String profileMedium;
+    private String profile_medium;
 
     @Column(name = "cover_photo")
-    private String coverPhoto;
+    private String cover_photo;
 
     @Column(name = "cover_photo_small")
-    private String coverPhotoSmall;
+    private String cover_photo_small;
+
+    @ElementCollection
+    @CollectionTable(name = "activity_types", joinColumns = @JoinColumn(name = "club_id"))
+    @Column(name = "activity_type")
+    private List<String> activityTypes;
 
     @Column(name = "sport_type")
-    private String sportType;
+    private String sport_type;
 
     @Column(name = "city")
     private String city;
@@ -41,10 +54,10 @@ public class Club {
     private String country;
 
     @Column(name = "private_club")
-    private boolean privateClub;
+    private boolean private_club;
 
     @Column(name = "member_count")
-    private int memberCount;
+    private int member_count;
 
     @Column(name = "featured")
     private boolean featured;
@@ -55,22 +68,26 @@ public class Club {
     @Column(name = "url")
     private String url;
 
+
     // Constructor
     public Club() {
     }
 
-    public Club(int resourceState, String name, String profileMedium, String coverPhoto, String coverPhotoSmall, String sportType, String city, String state, String country, boolean privateClub, int memberCount, boolean featured, boolean verified, String url) {
-        this.resourceState = resourceState;
+    public Club(long apiId, int resource_state, String name, String description, String profile_medium, String cover_photo, String cover_photo_small, List<String> activityTypes, String sport_type, String city, String state, String country, boolean private_club, int member_count, boolean featured, boolean verified, String url) {
+        this.apiId = apiId;
+        this.resource_state = resource_state;
         this.name = name;
-        this.profileMedium = profileMedium;
-        this.coverPhoto = coverPhoto;
-        this.coverPhotoSmall = coverPhotoSmall;
-        this.sportType = sportType;
+        this.description = description;
+        this.profile_medium = profile_medium;
+        this.cover_photo = cover_photo;
+        this.cover_photo_small = cover_photo_small;
+        this.activityTypes = activityTypes;
+        this.sport_type = sport_type;
         this.city = city;
         this.state = state;
         this.country = country;
-        this.privateClub = privateClub;
-        this.memberCount = memberCount;
+        this.private_club = private_club;
+        this.member_count = member_count;
         this.featured = featured;
         this.verified = verified;
         this.url = url;
@@ -84,13 +101,7 @@ public class Club {
         this.id = id;
     }
 
-    public int getResourceState() {
-        return resourceState;
-    }
 
-    public void setResourceState(int resourceState) {
-        this.resourceState = resourceState;
-    }
 
     public String getName() {
         return name;
@@ -100,37 +111,7 @@ public class Club {
         this.name = name;
     }
 
-    public String getProfileMedium() {
-        return profileMedium;
-    }
 
-    public void setProfileMedium(String profileMedium) {
-        this.profileMedium = profileMedium;
-    }
-
-    public String getCoverPhoto() {
-        return coverPhoto;
-    }
-
-    public void setCoverPhoto(String coverPhoto) {
-        this.coverPhoto = coverPhoto;
-    }
-
-    public String getCoverPhotoSmall() {
-        return coverPhotoSmall;
-    }
-
-    public void setCoverPhotoSmall(String coverPhotoSmall) {
-        this.coverPhotoSmall = coverPhotoSmall;
-    }
-
-    public String getSportType() {
-        return sportType;
-    }
-
-    public void setSportType(String sportType) {
-        this.sportType = sportType;
-    }
 
     public String getCity() {
         return city;
@@ -156,21 +137,7 @@ public class Club {
         this.country = country;
     }
 
-    public boolean isPrivateClub() {
-        return privateClub;
-    }
 
-    public void setPrivateClub(boolean privateClub) {
-        this.privateClub = privateClub;
-    }
-
-    public int getMemberCount() {
-        return memberCount;
-    }
-
-    public void setMemberCount(int memberCount) {
-        this.memberCount = memberCount;
-    }
 
     public boolean isFeatured() {
         return featured;
@@ -196,21 +163,104 @@ public class Club {
         this.url = url;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public long getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(long apiId) {
+        this.apiId = apiId;
+    }
+
+    public int getMember_count() {
+        return member_count;
+    }
+
+    public void setMember_count(int member_count) {
+        this.member_count = member_count;
+    }
+
+    public boolean isPrivate_club() {
+        return private_club;
+    }
+
+    public void setPrivate_club(boolean private_club) {
+        this.private_club = private_club;
+    }
+
+    public String getSport_type() {
+        return sport_type;
+    }
+
+    public void setSport_type(String sport_type) {
+        this.sport_type = sport_type;
+    }
+
+    public List<String> getActivityTypes() {
+        return activityTypes;
+    }
+
+    public void setActivityTypes(List<String> activityTypes) {
+        this.activityTypes = activityTypes;
+    }
+
+    public String getCover_photo_small() {
+        return cover_photo_small;
+    }
+
+    public void setCover_photo_small(String cover_photo_small) {
+        this.cover_photo_small = cover_photo_small;
+    }
+
+    public String getCover_photo() {
+        return cover_photo;
+    }
+
+    public void setCover_photo(String cover_photo) {
+        this.cover_photo = cover_photo;
+    }
+
+    public String getProfile_medium() {
+        return profile_medium;
+    }
+
+    public void setProfile_medium(String profile_medium) {
+        this.profile_medium = profile_medium;
+    }
+
+    public int getResource_state() {
+        return resource_state;
+    }
+
+    public void setResource_state(int resource_state) {
+        this.resource_state = resource_state;
+    }
+
     @Override
     public String toString() {
         return "Club{" +
                 "id=" + id +
-                ", resourceState=" + resourceState +
+                ", apiId=" + apiId +
+                ", resource_state=" + resource_state +
                 ", name='" + name + '\'' +
-                ", profileMedium='" + profileMedium + '\'' +
-                ", coverPhoto='" + coverPhoto + '\'' +
-                ", coverPhotoSmall='" + coverPhotoSmall + '\'' +
-                ", sportType='" + sportType + '\'' +
+                ", description='" + description + '\'' +
+                ", profile_medium='" + profile_medium + '\'' +
+                ", cover_photo='" + cover_photo + '\'' +
+                ", cover_photo_small='" + cover_photo_small + '\'' +
+                ", activityTypes=" + activityTypes +
+                ", sport_type='" + sport_type + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
                 ", country='" + country + '\'' +
-                ", privateClub=" + privateClub +
-                ", memberCount=" + memberCount +
+                ", private_club=" + private_club +
+                ", member_count=" + member_count +
                 ", featured=" + featured +
                 ", verified=" + verified +
                 ", url='" + url + '\'' +

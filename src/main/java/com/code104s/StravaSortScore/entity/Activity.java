@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -15,68 +16,97 @@ public class Activity {
     @Column(name = "id")
     private long id;
 
+    @Column(name = "api_id")
+    private long apiId;
+
     @Column(name = "name")
     private String name;
+
+    @Column(name = "type")
+    private ActivityType type;
+
+    public enum ActivityType{
+        AlpineSki, BackcountrySki, Canoeing, Crossfit, EBikeRide, Elliptical, Golf, Handcycle, Hike, IceSkate, InlineSkate, Kayaking, Kitesurf, NordicSki, Ride, RockClimbing, RollerSki, Rowing, Run, Sail, Skateboard, Snowboard, Snowshoe, Soccer, StairStepper, StandUpPaddling, Surfing, Swim, Velomobile, VirtualRide, VirtualRun, Walk, WeightTraining, Wheelchair, Windsurf, Workout, Yoga
+    }
+
+    @Column(name = "sport_type")
+    private SportType sport_type;
+
+    public enum SportType{
+        AlpineSki, BackcountrySki, Badminton, Canoeing, Crossfit, EBikeRide, Elliptical, EMountainBikeRide, Golf, GravelRide, Handcycle, HighIntensityIntervalTraining, Hike, IceSkate, InlineSkate, Kayaking, Kitesurf, MountainBikeRide, NordicSki, Pickleball, Pilates, Racquetball, Ride, RockClimbing, RollerSki, Rowing, Run, Sail, Skateboard, Snowboard, Snowshoe, Soccer, Squash, StairStepper, StandUpPaddling, Surfing, Swim, TableTennis, Tennis, TrailRun, Velomobile, VirtualRide, VirtualRow, VirtualRun, Walk, WeightTraining, Wheelchair, Windsurf, Workout, Yoga
+    }
 
     @Column(name = "distance")
     private float distance;
 
     @Column(name = "start_date")
-    private LocalDateTime startDate;
+    private LocalDateTime start_date;
 
     @Column(name = "start_date_local")
-    private LocalDateTime startDateLocal;
+    private LocalDateTime start_date_local;
+
+    @Column(name="moving_time")
+    private int moving_time;
+
+    @Column(name="elapsed_time")
+    private int elapsed_time;
+
+    @Column(name="description")
+    private String description;
+
+    @Column(name="trainer")
+    private Boolean trainer;
+
+    @Column(name="commute")
+    private Boolean commute;
 
     @Column(name = "timezone")
     private String timezone;
 
     @Column(name = "achievement_count")
-    private int achievementCount;
+    private int achievement_count;
 
-    @Column(name = "kudos_count")
-    private int kudosCount;
-
-    @Column(name = "average_speed")
-    private float averageSpeed;
-
-    @Column(name = "max_speed")
-    private float maxSpeed;
-
-    @Column(name = "has_heartrate")
-    private boolean hasHeartrate;
-
-    @Column(name = "average_heartrate")
-    private float averageHeartrate;
-
-    @Column(name = "max_heartrate")
-    private int maxHeartrate;
-
-    @Column(name = "elev_high")
-    private float elevHigh;
-
-    @Column(name = "elev_low")
-    private float elevLow;
 
     // Constructor
     public Activity() {
     }
 
-    public Activity(String name, float distance, LocalDateTime startDate, LocalDateTime startDateLocal, String timezone, int achievementCount, int kudosCount, float averageSpeed, float maxSpeed, boolean hasHeartrate, float averageHeartrate, int maxHeartrate, float elevHigh, float elevLow) {
+    public Activity(long apiId, String name, ActivityType type, SportType sport_type, float distance, LocalDateTime start_date, LocalDateTime start_date_local, int moving_time, int elapsed_time, String description, Boolean trainer, Boolean commute, String timezone, int achievement_count) {
+        this.apiId = apiId;
         this.name = name;
+        this.type = type;
+        this.sport_type = sport_type;
         this.distance = distance;
-        this.startDate = startDate;
-        this.startDateLocal = startDateLocal;
+        this.start_date = start_date;
+        this.start_date_local = start_date_local;
+        this.moving_time = moving_time;
+        this.elapsed_time = elapsed_time;
+        this.description = description;
+        this.trainer = trainer;
+        this.commute = commute;
         this.timezone = timezone;
-        this.achievementCount = achievementCount;
-        this.kudosCount = kudosCount;
-        this.averageSpeed = averageSpeed;
-        this.maxSpeed = maxSpeed;
-        this.hasHeartrate = hasHeartrate;
-        this.averageHeartrate = averageHeartrate;
-        this.maxHeartrate = maxHeartrate;
-        this.elevHigh = elevHigh;
-        this.elevLow = elevLow;
+        this.achievement_count = achievement_count;
     }
+
+
+
+    public long getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(long apiId) {
+        this.apiId = apiId;
+    }
+
+
+    public ActivityType getType() {
+        return type;
+    }
+
+    public void setType(ActivityType type) {
+        this.type = type;
+    }
+
 
     public long getId() {
         return id;
@@ -102,21 +132,7 @@ public class Activity {
         this.distance = distance;
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
-    }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getStartDateLocal() {
-        return startDateLocal;
-    }
-
-    public void setStartDateLocal(LocalDateTime startDateLocal) {
-        this.startDateLocal = startDateLocal;
-    }
 
     public String getTimezone() {
         return timezone;
@@ -126,96 +142,98 @@ public class Activity {
         this.timezone = timezone;
     }
 
-    public int getAchievementCount() {
-        return achievementCount;
+
+
+    public String getDescription() {
+        return description;
     }
 
-    public void setAchievementCount(int achievementCount) {
-        this.achievementCount = achievementCount;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getKudosCount() {
-        return kudosCount;
+    public Boolean getTrainer() {
+        return trainer;
     }
 
-    public void setKudosCount(int kudosCount) {
-        this.kudosCount = kudosCount;
+    public void setTrainer(Boolean trainer) {
+        this.trainer = trainer;
     }
 
-    public float getAverageSpeed() {
-        return averageSpeed;
+    public Boolean getCommute() {
+        return commute;
     }
 
-    public void setAverageSpeed(float averageSpeed) {
-        this.averageSpeed = averageSpeed;
+    public void setCommute(Boolean commute) {
+        this.commute = commute;
     }
 
-    public float getMaxSpeed() {
-        return maxSpeed;
+    public SportType getSport_type() {
+        return sport_type;
     }
 
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
+    public void setSport_type(SportType sport_type) {
+        this.sport_type = sport_type;
     }
 
-    public boolean isHasHeartrate() {
-        return hasHeartrate;
+    public LocalDateTime getStart_date() {
+        return start_date;
     }
 
-    public void setHasHeartrate(boolean hasHeartrate) {
-        this.hasHeartrate = hasHeartrate;
+    public void setStart_date(LocalDateTime start_date) {
+        this.start_date = start_date;
     }
 
-    public float getAverageHeartrate() {
-        return averageHeartrate;
+    public LocalDateTime getStart_date_local() {
+        return start_date_local;
     }
 
-    public void setAverageHeartrate(float averageHeartrate) {
-        this.averageHeartrate = averageHeartrate;
+    public void setStart_date_local(LocalDateTime start_date_local) {
+        this.start_date_local = start_date_local;
     }
 
-    public int getMaxHeartrate() {
-        return maxHeartrate;
+    public int getMoving_time() {
+        return moving_time;
     }
 
-    public void setMaxHeartrate(int maxHeartrate) {
-        this.maxHeartrate = maxHeartrate;
+    public void setMoving_time(int moving_time) {
+        this.moving_time = moving_time;
     }
 
-    public float getElevHigh() {
-        return elevHigh;
+    public int getElapsed_time() {
+        return elapsed_time;
     }
 
-    public void setElevHigh(float elevHigh) {
-        this.elevHigh = elevHigh;
+    public void setElapsed_time(int elapsed_time) {
+        this.elapsed_time = elapsed_time;
     }
 
-    public float getElevLow() {
-        return elevLow;
+    public int getAchievement_count() {
+        return achievement_count;
     }
 
-    public void setElevLow(float elevLow) {
-        this.elevLow = elevLow;
+    public void setAchievement_count(int achievement_count) {
+        this.achievement_count = achievement_count;
     }
 
     @Override
     public String toString() {
         return "Activity{" +
                 "id=" + id +
+                ", apiId=" + apiId +
                 ", name='" + name + '\'' +
+                ", type=" + type +
+                ", sport_type=" + sport_type +
                 ", distance=" + distance +
-                ", startDate=" + startDate +
-                ", startDateLocal=" + startDateLocal +
+                ", start_date=" + start_date +
+                ", start_date_local=" + start_date_local +
+                ", moving_time=" + moving_time +
+                ", elapsed_time=" + elapsed_time +
+                ", description='" + description + '\'' +
+                ", trainer=" + trainer +
+                ", commute=" + commute +
                 ", timezone='" + timezone + '\'' +
-                ", achievementCount=" + achievementCount +
-                ", kudosCount=" + kudosCount +
-                ", averageSpeed=" + averageSpeed +
-                ", maxSpeed=" + maxSpeed +
-                ", hasHeartrate=" + hasHeartrate +
-                ", averageHeartrate=" + averageHeartrate +
-                ", maxHeartrate=" + maxHeartrate +
-                ", elevHigh=" + elevHigh +
-                ", elevLow=" + elevLow +
+                ", achievement_count=" + achievement_count +
                 '}';
     }
 }

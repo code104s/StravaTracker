@@ -4,29 +4,103 @@
     <title>Dashboard</title>
     <!-- Thêm Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Thêm CSS tùy chỉnh -->
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Dashboard</a>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <img th:src="${athlete.profile}" class="rounded-circle" width="30" height="30">
-                    <span th:text="${athlete.firstname}"></span><br>
-                    <span th:text="${athlete.id}"></span>
+<header class="bg-light py-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Dashboard</a>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img th:src="${athlete.profile}" class="rounded-circle" width="30" height="30">
+                        <span th:text="${athlete.firstname}"></span><br>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+            <div class="position-sticky">
+                <div class="list-group list-group-flush mx-3 mt-4">
+                    <a href="#" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                        <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-2 ripple" data-toggle="collapse" data-target="#activitySubmenu">
+                        <i class="fas fa-walking fa-fw me-3"></i><span>Activity</span>
+                    </a>
+                    <div class="collapse" id="activitySubmenu">
 
-                </a>
-            </li>
-        </ul>
+                        <a href="/athlete/activities" class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-walking fa-fw me-3"></i><span>My Activities</span>
+                        </a>
+                        <a href="/activity/showFormCreate" class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-plus fa-fw me-3"></i><span>Add Activity</span>
+                        </a>
+                    </div>
+                    <a href="#" class="list-group-item list-group-item-action py-2 ripple" data-toggle="collapse" data-target="#clubSubmenu">
+                        <i class="fas fa-users fa-fw me-3"></i><span>Club</span>
+                    </a>
+                    <div class="collapse" id="clubSubmenu">
+                        <a href="/athlete/clubs" class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-user fa-fw me-3"></i><span>My Club</span>
+                        </a>
+                        <a href="/club/total" class="list-group-item list-group-item-action py-2 ripple">
+                            <i class="fas fa-users fa-fw me-3"></i><span>Total</span>
+                        </a>
+                    </div>
+                    <!-- Add more items here -->
+                </div>
+            </div>
+        </nav>
+        <!-- Sidebar -->
+
+        <!-- Page Content -->
+        <main id="content" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+            <!-- Your main content goes here -->
+            <div class="container-xxl">
+                <h1 class="mt-5">Welcome, <span th:text="${athlete.firstname} + ' ' + ${athlete.lastname}"></span></h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">My Activities</h5>
+                                <p class="card-text text-center">View all activities</p>
+                                <a href="/athlete/activities" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            List my club
+
+        </main>
     </div>
-</nav>
-<div class="container">
-    <h1 class="mt-5">Welcome, <span th:text="${athlete.firstname} + ' ' + ${athlete.lastname}"></span>!</h1>
-
 </div>
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">© Code104s</span>
+    </div>
+</footer>
+
 <!-- Thêm Bootstrap JS và jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 package com.code104s.StravaSortScore.controller;
 
-
 import com.code104s.StravaSortScore.DAO.AthleteRepository;
+import com.code104s.StravaSortScore.DAO.ClubActivitiesRepository;
 import com.code104s.StravaSortScore.entity.Athlete;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +21,18 @@ public class DashboardController {
     private final AthleteRepository athleteRepository;
 
     @Autowired
-    public DashboardController(AthleteRepository athleteRepository) {
+    private final ClubActivitiesRepository clubActivitiesRepository;
+
+    @Autowired
+    public DashboardController(AthleteRepository athleteRepository, ClubActivitiesRepository clubActivitiesRepository) {
         this.athleteRepository = athleteRepository;
+        this.clubActivitiesRepository = clubActivitiesRepository;
     }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, HttpSession session) {
+
+
         // Lấy access token từ session
         String accessToken = (String) session.getAttribute("access_token");
 
@@ -56,7 +60,19 @@ public class DashboardController {
         );
 
         Athlete athlete = response.getBody();
-        athleteRepository.save(athlete);
+
+        // Kiểm tra xem Athlete đã tồn tại trong cơ sở dữ liệu hay chưa
+        if (athleteRepository.existsByProfile(athlete.getProfile())) {
+            // Nếu Athlete đã tồn tại, cập nhật thông tin cho Athlete đó
+            Athlete existingAthlete = athleteRepository.findById(athlete.getId()).orElse(null);
+            if (existingAthlete != null) {
+                existingAthlete.updateWith(athlete);
+                athleteRepository.save(existingAthlete);
+            }
+        } else {
+            // Nếu Athlete chưa tồn tại, lưu Athlete mới
+            athleteRepository.save(athlete);
+        }
 
         // Lấy dữ liệu từ cơ sở dữ liệu
         Athlete athleteFromDb = athleteRepository.findById(athlete.getId()).orElse(null);
@@ -64,10 +80,13 @@ public class DashboardController {
         // Thêm dữ liệu vào model
         model.addAttribute("athlete", athleteFromDb);
 
+        // Thêm Athlete vào session
+        session.setAttribute("athlete", response.getBody());
 
         // Thêm phản hồi vào model
         model.addAttribute("athlete", response.getBody());
 
         return "dashboard";
     }
+
 }

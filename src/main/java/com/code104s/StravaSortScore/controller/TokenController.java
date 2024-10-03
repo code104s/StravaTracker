@@ -24,23 +24,17 @@ import java.util.Map;
 
 public class TokenController {
 
-    @Value("${spring.security.oauth2.client.registration.strava.client-id}")
-    private String clientId;
-
-    @Value("${spring.security.oauth2.client.registration.strava.client-secret}")
-    private String clientSecret;
 
     @Value("${spring.security.oauth2.client.registration.strava.redirect-uri}")
     private String redirectUri;
 
-    @GetMapping("/")
-    public String home() {
-        // Redirect the user to the Strava authorization URL
-        return "redirect:/login";
-    }
-
     @GetMapping("/authorize")
-    public String authorize() {
+    public String authorize(HttpSession session) {
+
+        // Lấy clientId và clientSecret từ session
+        String clientId = (String) session.getAttribute("clientId");
+        String clientSecret = (String) session.getAttribute("clientSecret");
+
         // Redirect the user to the Strava authorization URL
         return "redirect:https://www.strava.com/oauth/authorize?client_id=" + clientId +
                 "&redirect_uri=" + redirectUri +
@@ -52,7 +46,9 @@ public class TokenController {
                                                 Model model,
                                                 HttpSession session) throws JsonProcessingException {
 
-        authorize();
+        // Lấy clientId và clientSecret từ session
+        String clientId = (String) session.getAttribute("clientId");
+        String clientSecret = (String) session.getAttribute("clientSecret");
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -76,7 +72,7 @@ public class TokenController {
 
         // Convert the JSON response body to a Map
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println("Response body: " + response.getBody());
+        System.out.println("Token:: " + response.getBody());
         Map<String, Object> responseBody = mapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>(){});
 
         // Trích xuất mã truy cập và phạm vi từ phản hồi

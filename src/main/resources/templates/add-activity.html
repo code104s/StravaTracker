@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Activity</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Dashboard</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <img th:src="${athlete.profile}" class="rounded-circle" width="30" height="30">
+                    <span th:text="${athlete.firstname}"></span><br>
+                    <span th:text="${athlete.id}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<button onclick="goBack()">Go Back</button>
+<div class="container">
+    <h1 class="mt-5">Add Activity</h1>
+
+    <form action="#" th:action="@{/activity/save}" th:object="${activity}" method="post">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select th:field="*{type}" class="form-control" id="type">
+                <option th:each="type : ${T(com.code104s.StravaSortScore.entity.Activity.ActivityType).values()}" th:value="${type}" th:text="${type}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="sport_type">Sport Type</label>
+            <select th:field="*{sport_type}" class="form-control" id="sport_type">
+                <option th:each="sport_type : ${T(com.code104s.StravaSortScore.entity.Activity.SportType).values()}" th:value="${sport_type}" th:text="${sport_type}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="start_date_local">Start Date</label>
+            <input type="datetime-local" th:field="*{start_date_local}" class="form-control" id="start_date_local" required>
+        </div>
+        <div class="form-group">
+            <label for="elapsed_time">Elapsed Time</label>
+            <input type="number" th:field="*{elapsed_time}" class="form-control" id="elapsed_time" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea th:field="*{description}" class="form-control" id="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="distance">Distance</label>
+            <input type="number" step="0.01" th:field="*{distance}" class="form-control" id="distance">
+        </div>
+        <div class="form-group">
+            <label for="trainer">Trainer</label>
+            <input type="number" th:field="*{trainer}" class="form-control" id="trainer">
+        </div>
+        <div class="form-group">
+            <label for="commute">Commute</label>
+            <input type="number" th:field="*{commute}" class="form-control" id="commute">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<!-- Add Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+</body>
+</html>

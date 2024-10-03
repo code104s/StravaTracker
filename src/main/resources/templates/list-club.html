@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Club List</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<header class="bg-light py-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Club</a>
+        <div class="collapse navbar-collapse"  id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <img th:src="${athlete.profile}" class="rounded-circle" width="30" height="30">
+                        <span th:text="${athlete.firstname}"></span><br>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<a class="btn btn-primary" href="/dashboard">Back</a>
+<div class="container">
+    <h1 class="mt-5">Clubs of <span th:text="${athlete.firstname} + ' ' + ${athlete.lastname}"></span></h1>
+    <div class="row">
+        <div th:each="club : ${clubs}" class="col-sm-4">
+            <div class="card">
+                <img th:src="${club.profile_medium}" class="card-img-top" alt="Club Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${club.name}"></h5>
+                    <h5 class="card-text" th:text="${club.member_count}"></h5>
+                    <span th:text="${club.sport_type}"></span><br>
+                    <a th:href="@{/club/activities(clubId=${club.apiId})}" class="btn btn-primary">Activities</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">© Code104s</span>
+    </div>
+</footer>
+<!-- Add Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

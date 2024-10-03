@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Activity</title>
+    <!-- Thêm Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Thêm datatable css -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Activity</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <img th:src="${athlete.profile}" class="rounded-circle" width="30" height="30">
+                    <span th:text="${athlete.firstname}"></span><br>
+                    <span th:text="${athlete.id}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<button onclick="goBack()">Go Back</button>
+
+<script>
+    function goBack() {
+      window.history.back();
+    }
+</script>
+<div class="container">
+    <h1 class="mt-5">Activities of <span th:text="${athlete.firstname} + ' ' + ${athlete.lastname}"></span></h1>
+
+    <!-- Thêm nội dung hiển thị activities ở đây -->
+    <table class="table table-striped" id="activitiesTable">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Distance</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">Moving Time</th>
+            <th scope="col">Achievement Count</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="activity, stat : ${activities}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${activity.name}"></td>
+            <td th:text="${activity.type}"></td>
+            <td th:text="${activity.distance}"></td>
+            <td th:text="${activity.start_date}"></td>
+            <td th:text="${activity.moving_time}"></td>
+            <td th:text="${activity.achievement_count}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<!-- Thêm Bootstrap JS và jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready( function () {
+        $('#activitiesTable').DataTable();
+    } );
+</script>
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <span class="text-muted">© Code104s</span>
+    </div>
+</footer>
+</body>
+</html>
